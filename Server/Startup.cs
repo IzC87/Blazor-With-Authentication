@@ -10,6 +10,9 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Medieval.Server.Data;
 using Medieval.Server.Models;
+using Server.Services;
+using Server.Services.Interfaces;
+using AutoMapper;
 
 namespace Medieval.Server
 {
@@ -26,24 +29,29 @@ namespace Medieval.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<MedievalContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<MedievalContext>();
 
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddApiAuthorization<ApplicationUser, MedievalContext>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
-
+            
+            services.AddAutoMapper(typeof(Startup));
+            
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddScoped<IGameRepository, GameRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

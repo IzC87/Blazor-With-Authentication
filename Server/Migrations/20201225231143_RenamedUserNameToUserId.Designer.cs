@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medieval.Server.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201222195554_Identity")]
-    partial class Identity
+    [DbContext(typeof(MedievalContext))]
+    [Migration("20201225231143_RenamedUserNameToUserId")]
+    partial class RenamedUserNameToUserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -324,6 +324,50 @@ namespace Medieval.Server.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Server.Models.Game", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int?>("ResourcesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResourcesId");
+
+                    b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("Server.Models.Resources", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("Food")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Ore")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StorageSize")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Wood")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Resources");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -373,6 +417,15 @@ namespace Medieval.Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Server.Models.Game", b =>
+                {
+                    b.HasOne("Server.Models.Resources", "Resources")
+                        .WithMany()
+                        .HasForeignKey("ResourcesId");
+
+                    b.Navigation("Resources");
                 });
 #pragma warning restore 612, 618
         }
