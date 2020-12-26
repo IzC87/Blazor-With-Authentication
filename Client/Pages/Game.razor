@@ -5,6 +5,7 @@
 @attribute [Authorize]
 @inject HttpClient Http
 
+<link href="css/Game.css" rel="stylesheet" />
 
 @if (game == null)
 {
@@ -12,7 +13,7 @@
 }
 else
 {
-    <p>@game.Resources.Wood</p>
+    <ResourceBar Resources="@game.Resources" />
 }
 
 @code {

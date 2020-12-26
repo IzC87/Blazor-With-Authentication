@@ -1,0 +1,14 @@
+@using Medieval.Shared
+
+<link href="css/ResourceBar.css" rel="stylesheet" />
+
+<div class="row">
+    <p class="WoodText">Wood: @Resources.Wood / @Resources.StorageSize </p>
+    <p class="OreText">Ore: @Resources.Ore / @Resources.StorageSize  </p>
+    <p class="FoodText">Food: @Resources.Food  </p>
+</div>
+
+@code {
+    [Parameter]
+    public ResourceModel Resources { get; set; }
+}
