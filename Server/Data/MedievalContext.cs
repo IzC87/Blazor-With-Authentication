@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Server.Models;
 
 namespace Medieval.Server.Data
 {
@@ -19,8 +18,5 @@ namespace Medieval.Server.Data
         {
             
         }
-
-        public virtual DbSet<Game> Games { get; set; }
-        public virtual DbSet<Resources> Resources { get; set; }
     }
 }
